@@ -18,6 +18,7 @@ class Mpf(Package):
         pass
 
     variant('shared', default=True, description='Build MPF as a shared library')
+    variant('swig', default=True, description='Build MPF Python bindings')
 
     depends_on("py-mpi4py")
     depends_on("blas")
@@ -27,6 +28,7 @@ class Mpf(Package):
     depends_on("hmat@master", when="@master")
     depends_on("hmat@1.2", when="@1.22:")
     depends_on("blacs")
+    depends_on("swig", when="+swig")
 
     def install(self, spec, prefix):
         with working_dir('build', create=True):
@@ -45,6 +47,12 @@ class Mpf(Package):
                 cmake_args.extend(['-DBUILD_SHARED_LIBS=ON'])
             else:
                 cmake_args.extend(['-DBUILD_SHARED_LIBS=OFF'])
+            if spec.satisfies('+shared') and spec.satisfies('+swig'):
+                swig = spec['swig'].prefix
+                cmake_args.extend(['-DMPF_BUILD_PYTHON=ON'])
+                cmake_args.extend(["-DSWIG_EXECUTABLE=%s/swig" % swig.bin])
+            else:
+                cmake_args.extend(['-DMPF_BUILD_PYTHON=OFF'])
 
             hmat = spec['hmat'].prefix
             cmake_args.extend(["-DHMAT_DIR=%s/CMake" % hmat.share])
