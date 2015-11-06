@@ -12,6 +12,8 @@ class Hmat(Package):
     try:
         repo=os.environ['SOFTWAREREPO1']
         version('master', git=repo+'hmat.git', branch='master')
+        version('1.2',   git=repo+'hmat.git', branch='v1.2')
+        version('1.2.1', git=repo+'hmat.git', tag='v1.2.1')
     except KeyError:
         pass
 

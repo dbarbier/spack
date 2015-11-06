@@ -19,7 +19,8 @@ class Actipole(Package):
 
     variant('shared', default=True, description='Build ACTIPOLE as a shared library')
 
-    depends_on("scab")
+    depends_on("scab@master", when="@master")
+    depends_on("scab@1.6", when="@1.21:")
 
     def install(self, spec, prefix):
         with working_dir('build', create=True):

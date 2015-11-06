@@ -19,7 +19,8 @@ class Scab(Package):
 
     variant('shared', default=True, description='Build SCAB as a shared library')
 
-    depends_on("mpf")
+    depends_on("mpf@master", when='@master')
+    depends_on("mpf@1.22:", when='@1.6:')
     depends_on("cblas")
     depends_on("lapacke")
     depends_on("hdf5")

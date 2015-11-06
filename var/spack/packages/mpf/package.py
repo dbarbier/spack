@@ -24,7 +24,8 @@ class Mpf(Package):
     depends_on("lapack")
     depends_on("mumps")
     depends_on("pastix")
-    depends_on("hmat")
+    depends_on("hmat@master", when="@master")
+    depends_on("hmat@1.2", when="@1.22:")
     depends_on("blacs")
 
     def install(self, spec, prefix):
